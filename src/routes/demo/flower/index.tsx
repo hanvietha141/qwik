@@ -3,7 +3,7 @@ import { type DocumentHead, useLocation } from '@builder.io/qwik-city';
 import styles from './flower.css?inline';
 
 export default component$(() => {
-  useStylesScoped$(styles);
+  // useStylesScoped$(styles);
   const loc = useLocation();
 
   const state = useStore({
