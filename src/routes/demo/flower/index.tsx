@@ -61,4 +61,8 @@ export default component$(() => {
 
 export const head: DocumentHead = {
   title: 'Qwik Flower',
+  meta: [{
+    name: 'name 1',
+    content: 'content 1',
+  }]
 };
