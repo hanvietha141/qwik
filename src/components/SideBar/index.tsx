@@ -4,7 +4,7 @@ import {
   useResource$,
   useStylesScoped$,
 } from "@builder.io/qwik";
-import { getPosts } from "~/sevices/post";
+import { fandeloApi, getPosts } from "~/sevices/post";
 import styles from "./index.css?inline";
 import { Link } from "@builder.io/qwik-city";
 
@@ -13,7 +13,7 @@ const SideBar = component$(() => {
   const postsRessource = useResource$<any>(({ cleanup }) => {
     const controller = new AbortController();
     cleanup(() => controller.abort());
-    return getPosts();
+    return fandeloApi();
   });
   return (
     <>
@@ -23,7 +23,7 @@ const SideBar = component$(() => {
         onRejected={(error) => <>Error: {error.message}</>}
         onResolved={(posts) => (
           <ul>
-            {posts.map((post: any) => (
+            {posts.responseData.data.map((post: any) => (
               <li key={post.id}>
                 <Link href={`/posts/${post.id}`}>
                   <p class="item">{post.title}</p>

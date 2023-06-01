@@ -18,7 +18,7 @@ export default component$(() => {
     <>
       <Header />
       <main class="flex" >
-        <div class="w-1/4">
+        <div class="w-1/4 mr-4">
           <SideBar />
         </div>
         <div class="w-3/4">

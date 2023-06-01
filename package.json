@@ -48,6 +48,7 @@
     "vite-tsconfig-paths": "4.2.0"
   },
   "dependencies": {
+    "@unpic/qwik": "^0.0.19",
     "axios": "^1.4.0",
     "json-server": "^0.17.3"
   }
