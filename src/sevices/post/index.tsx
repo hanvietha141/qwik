@@ -14,7 +14,7 @@ export const getPostDetail = async (id: any) => {
   return posts;
 };
 
-export const fandeloApi = async () => {
+export const fandeloApi = async (keyword?: string) => {
   const resp = await fetch("https://test.fandelo.com/api/portal/admin/news", {
     method: "POST",
     headers: {
@@ -27,7 +27,7 @@ export const fandeloApi = async () => {
       orderDirection: null,
       schedule: "false",
       statuses: [1],
-      keyword: "",
+      keyword: keyword ?? '',
       fromDate: null,
       toDate: null,
       userIds: [],
@@ -38,10 +38,11 @@ export const fandeloApi = async () => {
     }),
   });
   const data = await resp.json();
+  console.log('data with keyword: ', keyword, '\n', 'data \n', data)
   return data;
 };
 
-export const fandeloApiGetDetail = async (id) => {
+export const fandeloApiGetDetail = async (id: any) => {
   const resp = await fetch("https://test.fandelo.com/api/portal/admin/news"+'/'+id, {
     method: "GET",
     headers: {

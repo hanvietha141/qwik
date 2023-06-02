@@ -1,26 +1,50 @@
 import {
+  $,
   Resource,
   component$,
   useResource$,
+  useSignal,
   useStylesScoped$,
+  useTask$,
 } from "@builder.io/qwik";
-import { fandeloApi, getPosts } from "~/sevices/post";
-import styles from "./index.css?inline";
 import { Link } from "@builder.io/qwik-city";
+import { MUIContainer, MUIInput } from "~/integrations/react/mui";
+import { fandeloApi } from "~/sevices/post";
+import styles from "./index.css?inline";
 
 const SideBar = component$(() => {
   useStylesScoped$(styles);
-  const postsRessource = useResource$<any>(({ cleanup }) => {
+
+  const inputText = useSignal("");
+  const debouncedValue = useSignal("");
+  const postsRessource = useResource$<any>(({ track, cleanup }) => {
+    track(() => debouncedValue.value);
     const controller = new AbortController();
     cleanup(() => controller.abort());
-    return fandeloApi();
+    return fandeloApi(debouncedValue.value);
   });
+
+  const onInput = $((val: any) => {
+    inputText.value = val.target.value;
+  });
+
+  useTask$(({ track, cleanup }) => {
+    track(() => inputText.value);
+
+    const debounced = setTimeout(() => {
+      debouncedValue.value = inputText.value;
+    }, 500);
+
+    cleanup(() => clearTimeout(debounced));
+  });
+
   return (
-    <>
+    <MUIContainer>
+      <MUIInput placeholder="Type something to search" onInput$={onInput} class="mui-input-hahan" />
       <Resource
         value={postsRessource}
-        onPending={() => <>Loading...</>}
-        onRejected={(error) => <>Error: {error.message}</>}
+        onPending={() => <div>Loading...</div>}
+        onRejected={(error) => <div>Error: {error.message}</div>}
         onResolved={(posts) => (
           <ul>
             {posts.responseData.data.map((post: any) => (
@@ -33,7 +57,7 @@ const SideBar = component$(() => {
           </ul>
         )}
       />
-    </>
+    </MUIContainer>
   );
 });
 

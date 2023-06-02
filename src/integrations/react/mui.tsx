@@ -1,10 +1,22 @@
 /** @jsxImportSource react */
 
-import { qwikify$ } from '@builder.io/qwik-react';
-import { Button, Grid } from '@mui/material';
+import { qwikify$ } from "@builder.io/qwik-react";
+import { Button, Container, Input, InputProps } from "@mui/material";
 
-export const MUIGrid = qwikify$(Grid);
-export const MUIButton = qwikify$(Button);
+interface MyInputProps extends InputProps {
+   class: string;
+}
+
+export const MUIButton = qwikify$(Button, { eagerness: "hover" });
+export const MUIContainer = qwikify$(Container, { eagerness: "hover" });
+
+export const MUIInput = qwikify$(
+  (props: MyInputProps) => {
+    return <Input {...props} className={props.class} />;
+  },
+  { eagerness: "hover" }
+);
+
 // export const MUISlider = qwikify$(Slider, { eagerness: 'hover' });
 
 // export const TableApp = qwikify$(() => {
